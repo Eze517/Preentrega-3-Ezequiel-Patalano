@@ -1,42 +1,42 @@
+const pintarCesta = () => {
+  const comprasContent = document.getElementById("comprasContent");
+  const vistaCesta = document.getElementById("vistaCesta");
+  const modalContainer = document.getElementById("modal-container");
+  const showAlert = document.getElementById("showAlert");
+  const cantidadCarrito = document.getElementById("cantidadCesta");
 
-const comprasContent = document.getElementById("comprasContent");
-const vistaCesta = document.getElementById("vistaCesta");
-const modalContainer = document.getElementById("modal-container");
-const showAlert = document.getElementById("showAlert");
-const cantidadCarrito = document.getElementById("cantidadCesta");
+  let cesta = JSON.parse(localStorage.getItem("compras")) || [];
 
-let cesta = JSON.parse(localStorage.getItem("compras")) || [];
-
-const elementos = [
+  const elementos = [
     {
-        id: 1,
-        nombre: "Aerosoles",
-        precio: 500,
-        cantidad: 1,
+      id: 1,
+      nombre: "Aerosoles",
+      precio: 500,
+      cantidad: 1,
     },
     {
-        id: 2,
-        nombre: "Difusor",
-        precio: 400,
-        cantidad: 1,
+      id: 2,
+      nombre: "Difusor",
+      precio: 400,
+      cantidad: 1,
     },
     {
-        id: 3,
-        nombre: "Sahumerios",
-        precio: 300,
-        cantidad: 1,
+      id: 3,
+      nombre: "Sahumerios",
+      precio: 300,
+      cantidad: 1,
     },
     {
-        id: 4,
-        nombre: "Caritas",
-        precio: 200,
-        cantidad: 1,
+      id: 4,
+      nombre: "Caritas",
+      precio: 200,
+      cantidad: 1,
     },
-];
+  ];
 
-//let cesta = JSON.parse(localStorage.getItem("compras")) || [];
+  //let cesta = JSON.parse(localStorage.getItem("compras")) || [];
 
-elementos.forEach((elements) => {
+  elementos.forEach((elements) => {
     let content = document.createElement("div");
     content.className = "card";
     content.innerHTML = `
@@ -52,31 +52,31 @@ elementos.forEach((elements) => {
 
     content.append(comprar);
     comprar.addEventListener("click", () => {
-        const repeat = cesta.some((repeatProduct) => repeatProduct.id === product.id);
+      const repeat = cesta.some((repeatProduct) => repeatProduct.id === product.id);
 
-        if (repeat) {
-            cesta.map((prod) => {
-                if (prod.id === product.id) {
-                    prod.cantidad++;
-                }
-            });
-        } else {
-            cesta.push({
-                id: product.id,
-                img: product.img,
-                nombre: product.nombre,
-                precio: product.precio,
-                cantidad: product.cantidad,
-            });
-            console.log(carrito);
-            console.log(carrito.length);
-            carritoCounter();
-            saveLocal();
-        }
+      if (repeat) {
+        cesta.map((prod) => {
+          if (prod.id === product.id) {
+            prod.cantidad++;
+          }
+        });
+      } else {
+        cesta.push({
+          id: product.id,
+          img: product.img,
+          nombre: product.nombre,
+          precio: product.precio,
+          cantidad: product.cantidad,
+        });
+        console.log(carrito);
+        console.log(carrito.length);
+        carritoCounter();
+        saveLocal();
+      }
     });
-});
+  });
 
-const verCesta = () => {
+  const vistaCesta = () => {
     modalContainer.innerHTML = "";
     modalContainer.style.display = "flex";
 
@@ -95,15 +95,15 @@ const verCesta = () => {
     modalbutton.className = "modal-header-button";
 
     modalbutton.addEventListener("click", () => {
-        modalContainer.style.display = "none";
+      modalContainer.style.display = "none";
     });
 
     modalHeader.append(modalbutton);
 
     cesta.forEach((product) => {
-        let cestaContent = document.createElement("div")
-        cestaContent.className = "modal-content"
-        cestaContent.innerHTML = `
+      let cestaContent = document.createElement("div")
+      cestaContent.className = "modal-content"
+      cestaContent.innerHTML = `
         <h3>${element.nombre}>/h3>
         <p>${element.precio}$</p>
         <span class="restar"> - </span>
@@ -113,40 +113,40 @@ const verCesta = () => {
         <span class="delete-product"> ❌ </span>
       `;
 
-        modalContainer.append(cestaContent);
+      modalContainer.append(cestaContent);
 
-        let restar = cestaContent.querySelector(".restar");
+      let restar = cestaContent.querySelector(".restar");
 
-        restar.addEventListener("click", () => {
-          if (product.cantidad !== 1) {
-            product.cantidad--;
-          }
-          saveLocal();
-          pintarCesta();
-        });
-    
-        let sumar = cestaContent.querySelector(".sumar");
-        sumar.addEventListener("click", () => {
-          product.cantidad++;
-          saveLocal();
-          pintarCesta();
-        });
-    
-        let eliminar = cestaContent.querySelector(".delete-product");
-    
-        eliminar.addEventListener("click", () => {
-          eliminarProducto(product.id);
-        });
+      restar.addEventListener("click", () => {
+        if (product.cantidad !== 1) {
+          product.cantidad--;
+        }
+        saveLocal();
+        pintarCesta();
+      });
+
+      let sumar = cestaContent.querySelector(".sumar");
+      sumar.addEventListener("click", () => {
+        product.cantidad++;
+        saveLocal();
+        pintarCesta();
+      });
+
+      let eliminar = cestaContent.querySelector(".delete-product");
+
+      eliminar.addEventListener("click", () => {
+        eliminarProducto(product.id);
+      });
     });
 
     const total = cesta.reduce((acc, the) => acc + the.valor, 0);
     const totalCompra = document.createElement("div")
     totalCompra.className = "total-content"
-    totalCompra.innerHTML = `total a pagar: ${ total } $`;
+    totalCompra.innerHTML = `total a pagar: ${total} $`;
     modalContainer.append(totalCompra);
+  }
 };
-
-verCesta.addEventListener("click", pintarCesta);
+vistaCesta.addEventListener("click", pintarCesta);
 
 const eliminarProducto = (id) => {
   const foundId = cesta.find((element) => element.id === id);
@@ -163,21 +163,21 @@ const eliminarProducto = (id) => {
 };
 
 const cestaCounter = () => {
-    cantidadCesta.style.display = "block";
-  
-    const cestaLength = cesta.length;
-  
-    localStorage.setItem("cestaLength", JSON.stringify(cestaLength));
-  
-    cantidadCesta.innerText = JSON.parse(localStorage.getItem("cestaLength"));
-  };
-  
-  cestaCounter();
+  cantidadCesta.style.display = "block";
+
+  const cestaLength = cesta.length;
+
+  localStorage.setItem("cestaLength", JSON.stringify(cestaLength));
+
+  cantidadCesta.innerText = JSON.parse(localStorage.getItem("cestaLength"));
+};
+
+cestaCounter();
 
 //set item
-const saveLocal=()=>{
+const saveLocal = () => {
 
-localStorage.setItem("compras",JSON.stringify(cesta));
+  localStorage.setItem("compras", JSON.stringify(cesta));
 };
 
 
