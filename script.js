@@ -7,32 +7,7 @@ const pintarCesta = () => {
 
   let cesta = JSON.parse(localStorage.getItem("compras")) || [];
 
-  const elementos = [
-    {
-      id: 1,
-      nombre: "Aerosoles",
-      precio: 500,
-      cantidad: 1,
-    },
-    {
-      id: 2,
-      nombre: "Difusor",
-      precio: 400,
-      cantidad: 1,
-    },
-    {
-      id: 3,
-      nombre: "Sahumerios",
-      precio: 300,
-      cantidad: 1,
-    },
-    {
-      id: 4,
-      nombre: "Caritas",
-      precio: 200,
-      cantidad: 1,
-    },
-  ];
+  const elementos = 
 
   //let cesta = JSON.parse(localStorage.getItem("compras")) || [];
 
@@ -100,7 +75,16 @@ const pintarCesta = () => {
 
     modalHeader.append(modalbutton);
 
-    cesta.forEach((product) => {
+const getProducts=async()=>{
+  const response= await fetch("dato.json");
+  const dato=await response.json();
+  console.log(data);
+
+};
+
+getProducts();
+
+    dato.forEach((product) => {
       let cestaContent = document.createElement("div")
       cestaContent.className = "modal-content"
       cestaContent.innerHTML = `
